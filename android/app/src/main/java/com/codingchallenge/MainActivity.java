@@ -1,4 +1,5 @@
 package com.codingchallenge;
+import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 
@@ -12,4 +13,13 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "codingChallenge";
   }
+
+  /**
+   *This change is required to avoid crashes related to View state being not persisted consistently across Activity restarts.  
+   */
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(null);
+  }
+
 }
