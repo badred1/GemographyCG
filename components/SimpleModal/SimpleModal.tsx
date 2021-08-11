@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import { Modal, Portal, Text } from 'react-native-paper';
 import Button from "../../components/Button"
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from "./Styles";
+import { PRIMARY_COLOR } from "../../assets/constants/colors";
+import { SMALL_ICON } from "../../assets/constants/sizes";
 
 interface SimpleModalProps {
   data: any,
@@ -24,7 +26,7 @@ const SimpleModal: React.FC<SimpleModalProps> = (props) => {
     handleRepoNav
   } = props;
 
-  const containerStyle = { backgroundColor: 'white', paddingTop: "5%", margin: 30, borderRadius: 20 };
+  const containerStyle = { backgroundColor: 'white', margin: 30, borderRadius: 20 };
 
   const [visible, setVisible] = useState(false);
 
@@ -42,16 +44,16 @@ const SimpleModal: React.FC<SimpleModalProps> = (props) => {
       <Modal visible={visible} onDismiss={handleOnDismiss} contentContainerStyle={containerStyle}>
         {
           icon &&
-          <View style={styles.icon}>
-            {icon}
+          <View style={{ backgroundColor: PRIMARY_COLOR, paddingTop: "5%", borderRadius: 15 }}>
+            <Image source={{ uri: data.avatar }} style={[styles.avatar]} />
           </View>
         }
         <ScrollView>
           <View style={{ paddingHorizontal: "4%" }}>
             {Object.entries(data).map((item: any, index) => (
               <View key={index} style={{ flexDirection: "column", paddingVertical: "3%" }}>
-                <Text style={{ color: 'black', fontFamily: "Raleway-Bold" }}>{item[0]} :</Text>
-                <Text style={{ color: 'black' }}>{item[1] === null ? "Not Specified" : `${item[1]}`}</Text>
+                <Text style={styles.title}>{item[0]} :</Text>
+                <Text style={styles.description}>{item[1] === null ? "Not Specified" : `${item[1]}`}</Text>
               </View>
             ))}
             <Button
@@ -60,11 +62,11 @@ const SimpleModal: React.FC<SimpleModalProps> = (props) => {
                 handleRepoNav();
                 dismiss();
               }}
-              style={{ maxWidth: "80%", alignSelf: "center", marginVertical: "10%" }}
+              style={styles.button}
               icon={
                 () => <Icon
                   name='github'
-                  size={20}
+                  size={SMALL_ICON}
                   color='white'
                 />
               }

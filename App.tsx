@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ReposList from './screens/ReposList';
 import AppBar from './components/AppBar';
 import RepoWebView from './screens/RepoWebView';
+import { PRIMARY_COLOR } from './assets/constants/colors';
 
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +17,7 @@ const App: React.FC = () => {
           name="ReposList"
           component={ReposList}
           options={{
-            header: () => <AppBar title="Trending Repos" backgroundColor="#6050DC" />
+            header: () => <AppBar title="Trending Repos" backgroundColor={PRIMARY_COLOR} />
           }} />
         <Stack.Screen
           name="RepoWebView"

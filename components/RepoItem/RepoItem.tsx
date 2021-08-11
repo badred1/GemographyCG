@@ -5,6 +5,8 @@ import { convertStars } from "../../services/helperFunctions";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native'
 import SimpleModal from "../SimpleModal";
+import { ITEM_BACKGROUND_COLOR, PRIMARY_COLOR, STARS_COLOR } from "../../assets/constants/colors"
+import { SMALL_ICON, MEDIUM_ICON, LARGE_ICON } from "../../assets/constants/sizes"
 
 interface RepoItemProps {
     index: number,
@@ -22,52 +24,46 @@ const RepoItem: React.FC<RepoItemProps> = (props) => {
 
     return (
         <>
-            <View style={{ display: "flex", flexDirection: "column", padding: "5%", backgroundColor: index % 2 === 0 ? "#6050dc12" : "white" }}>
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingBottom: "5%" }}>
-                    <View style={{ flexDirection: "row" }}>
+            <View style={[styles.container, { backgroundColor: index % 2 === 0 ? ITEM_BACKGROUND_COLOR : "#fff" }]}>
+                <View style={styles.firstRow}>
+                    <View style={styles.leftFirstRow}>
                         <Icon
                             name='info-circle'
-                            size={20}
-                            color='#6050DC'
+                            size={SMALL_ICON}
+                            color={PRIMARY_COLOR}
                             onPress={() => setShowModal(true)}
                             style={{ alignSelf: "center" }}
                         />
-                        <Text style={{ fontFamily: "Raleway-Bold", fontSize: 20, textTransform: "capitalize", paddingLeft: "3%" }}>{item.name}</Text>
+                        <Text style={styles.title}>{item.name}</Text>
                     </View>
-
-                    <View style={{ flexDirection: "row" }}>
-                        <Icon
-                            name='github'
-                            size={30}
-                            color='#6050DC'
-                            onPress={() => handleItemClick({ name: item.name, url: item.html_url })}
-                        />
-
-                    </View>
-
+                    <Icon
+                        name='github'
+                        size={MEDIUM_ICON}
+                        color={PRIMARY_COLOR}
+                        onPress={() => handleItemClick({ name: item.name, url: item.html_url })}
+                    />
                 </View>
-
-                {item.description && <Text style={{ fontFamily: "Raleway-Medium", paddingBottom: "5%", textTransform: "capitalize" }}>{item.description}</Text>}
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image source={{ uri: item.owner.avatar_url }} style={{ width: 45, height: 45, resizeMode: "cover", borderRadius: 100 }} />
-                    <Text style={{ fontFamily: "Raleway-Medium", paddingLeft: "3%" }}>{item.owner.login}</Text>
-                    <View style={{ position: "absolute", right: "5%", flexDirection: "row", alignItems: "center" }}>
+                {item.description && <Text style={styles.description}>{item.description}</Text>}
+                <View style={styles.secondRow}>
+                    <Image source={{ uri: item.owner.avatar_url }} style={styles.avatar} />
+                    <Text style={styles.ownerName}>{item.owner.login}</Text>
+                    <View style={styles.stars}>
                         <Icon
                             name='star'
-                            size={20}
-                            color='#F0CA00'
+                            size={SMALL_ICON}
+                            color={STARS_COLOR}
                         />
-                        <Text style={{ fontFamily: "Montserrat-Medium", paddingLeft: 10 }}>{convertStars(+item.stargazers_count)}</Text>
+                        <Text style={styles.starsText}>{convertStars(+item.stargazers_count)}</Text>
                     </View>
                 </View>
             </View>
             <SimpleModal
                 icon={<Icon
                     name='github'
-                    size={60}
-                    color='#6050DC'
+                    size={LARGE_ICON}
+                    color={PRIMARY_COLOR}
                 />}
-                data={{ ...item, owner: item.owner.login, license: item.license?.name }}
+                data={{ ...item, owner: item.owner.login, avatar: item.owner.avatar_url, license: item.license?.name }}
                 dismiss={() => setShowModal(false)}
                 handleRepoNav={() => handleItemClick({ name: item.name, url: item.html_url })}
                 showDetails={showModal}
