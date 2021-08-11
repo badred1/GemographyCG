@@ -72,6 +72,12 @@ So choose one of the following files:
 
 ## Screenshots
 
-
+<div align="center">
+  <img src="./screenshots/Splash.jpg" width="250" title="Splash Screen">
+  <img src="./screenshots/RepoList.jpg" width="250" title="Repos List">
+  <img src="./screenshots/DetailModal1.jpg" width="250" title="Detail Modal 1">
+  <img src="./screenshots/DetailModal2.jpg" width="250" title="Detail Modal 2">
+  <img src="./screenshots/WebView.jpg" width="250" title="Web View">
+</div>
 
 
