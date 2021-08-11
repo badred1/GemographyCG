@@ -18,10 +18,12 @@ const ReposList: React.FC<ReposListProps> = (props) => {
     const [refreshing, setRefreshing] = useState(false);
     const queryClient = useQueryClient();
 
+    //Using useInfiniteQuery hook to fetch data 
     const repos = useInfiniteQuery("getRepos", async ({ pageParam = 1 }) => {
         const { data } = await getTrendingLastMonthRepos(`created:>${getLastMonthDate()}`, "stars", "desc", pageParam, PER_PAGE);
         return data.items
     }, {
+        //setter for nextPageParam
         getNextPageParam: (lastPage, pages) => {
             //Check If results exceeded the 1000 max_results amount of repos set by the github api 
             if ((pages.length + 1) * PER_PAGE > MAX_RESULTS) {
@@ -31,22 +33,25 @@ const ReposList: React.FC<ReposListProps> = (props) => {
         }
     })
 
+    //FlatList Item renderer
     const renderItem = ({ item, index }: any) => {
         return <RepoItem item={item} index={index} />
     }
 
-
+    //Callback Fn onRefresh
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
         //Invalidate query to refresh
         await queryClient.invalidateQueries("getRepos", { exact: true })
         setRefreshing(false)
     }, []);
-
+    
+    //Render a Spinner on firstLoad
     if (repos.isLoading) {
         return <Spinner color={PRIMARY_COLOR} />
     }
 
+    //HandlingErrors
     if (repos.isError) {
         return (
             <ScrollView
@@ -69,7 +74,8 @@ const ReposList: React.FC<ReposListProps> = (props) => {
     }
 
     return (
-        <>
+        //Using FlatList to Optimize Performance
+        <>  
             <FlatList
                 data={repos.data?.pages.flat()} //
                 renderItem={renderItem}

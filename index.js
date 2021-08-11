@@ -10,11 +10,13 @@ import { QueryClient, QueryClientProvider, } from 'react-query';
 import { PRIMARY_COLOR } from './assets/constants/colors';
 import theme from "./theme";
 
+//React Query Client to pass to QueryProvider
 const queryClient = new QueryClient();
 LogBox.ignoreLogs(['Setting a timer']);
 
 export default function Main() {
   return (
+    //React-native-paper Provider
     <PaperProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <StatusBar
